@@ -18,7 +18,6 @@ public class GridImpl implements Grid {
         setGrid();
     }
 
-    //initialization of the grid
     private void setGrid(){
         this.grid = new ArrayList<>();
         checkInputData();
@@ -48,6 +47,7 @@ public class GridImpl implements Grid {
         return cols;
     }
 
+    //this method checks input rows and cols for zero or negative input
     private void checkInputData() {
         if (rows <= 0 || cols <= 0) {
             throw new IllegalArgumentException(INVALID_INPUT);

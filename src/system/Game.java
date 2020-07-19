@@ -35,8 +35,10 @@ public class Game implements Runnable {
     public void run() {
         System.out.println(WELCOME_MESSAGE);
         try {
+            //reed and save input data
             setGrid();
             getTargetAndGenerations();
+
             play();
             System.out.printf("The result is: %d", greenCellsCounter);
         } catch (Throwable e) {
@@ -50,6 +52,7 @@ public class Game implements Runnable {
             greenCellsCounter++;
         }
 
+        //go through all generations and check after each
         for (int i = 0; i < generations; i++) {
             grid.setGrid(formNextGeneration());
             if (checkTarget()) {
@@ -59,6 +62,7 @@ public class Game implements Runnable {
     }
 
     private List<Cell> formNextGeneration() {
+        //copy all Cells into new grid
         List<Cell> resultGrid = grid.getGrid().stream().map(Cell::new).collect(toList());
 
         for (int row = 0; row < grid.getRows(); row++) {
@@ -66,14 +70,15 @@ public class Game implements Runnable {
                 applyRules(resultGrid, row, col);
             }
         }
-
         return resultGrid;
     }
 
     private void applyRules(List<Cell> resultGrid, int row, int col) {
+        //get current cell from the new grid
         Cell cell = getCell(resultGrid, row, col);
         int greenCells = countSurroundingGreenCells(cell);
 
+        //set new values on the cell if needed
         if (cell.getColor() == RED) {
             if (RED_NUMBERS_FOR_CHANGE.contains(greenCells)) {
                 cell.setValue(GREEN_VALUE);
